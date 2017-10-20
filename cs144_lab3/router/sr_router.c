@@ -82,7 +82,6 @@ void sr_handlepacket(struct sr_instance* sr,
   print_hdrs(packet,len); 
   printf("+++++++interface %c \n", *interface);
   /* fill in code here */
-  /* fill in code here */
   struct sr_if *iface = sr_get_interface(sr, interface);
   assert (iface);
   sr_ethernet_hdr_t *ethernet_hdr = (sr_ethernet_hdr_t *)packet;
@@ -106,9 +105,19 @@ void sr_handlepacket(struct sr_instance* sr,
     return;
   }
 
-  
+  cksum_recompute(ip_hdr);
+
 
   
 
 }/* end sr_ForwardPacket */
+
+void cksum_recompute(sr_ip_hdr_t * ip_hdr){
+    /* decrement the ttl by 1
+    and re compute the packet checksum over the 
+    modified header*/
+    ip_hdr -> ip_ttl --;
+    memset(&ip_hdr -> ip_sum,0,sizeof(uint16_t));
+    ip_hdr -> ip_sum = cksum(ip_hdr, sizeof(sr_ip_hdr_t))
+  }
 
