@@ -117,8 +117,6 @@ void sr_handlepacket(struct sr_instance* sr,
     return;
   }
 
-  cksum_recompute(ip_hdr);
-
 
   
 
