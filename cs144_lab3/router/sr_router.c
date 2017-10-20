@@ -96,13 +96,16 @@ void sr_handlepacket(struct sr_instance* sr,
   /* drop if checksum not correct */
   void * datagram = (uint8_t *)packet + sizeof(sr_ethernet_hdr_t);
   sr_ip_hdr_t * ip_hdr = (sr_ip_hdr_t *)datagram;
-  uint16_t cksum = ip_hdr -> ip_sum;
-  ip_hdr -> ip_sum = 0;
-  if(cksum(void *) ip_hdr, sizeof(sr_ip_hdr_t)) != chksum)
+  sr_ip_hdr_t ip_hdr_copy = *ip_hdr;
+  memset(&(ip_hdr_copy.ip_sum), 0, sizeof(uint16_t));
+  uint16_t received_cksum = cksum(&ip_hdr_copy, sizeof(sr_ip_hdr_t));
+  if (!(ip_hdr->ip_sum == received_cksum))
   {
     fprintf(stderr, "Dropping ip packet. Corrupted checksum. %d ", chksum);
     return;
   }
+
+  
 
   
 
