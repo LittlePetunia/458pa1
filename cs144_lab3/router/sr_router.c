@@ -102,7 +102,7 @@ void sr_handlepacket(struct sr_instance* sr,
   uint16_t received_cksum = cksum(&ip_hdr_copy, sizeof(sr_ip_hdr_t));
   if (!(ip_hdr->ip_sum == received_cksum))
   {
-    fprintf(stderr, "Dropping ip packet. Corrupted checksum. %d ", chksum);
+    fprintf(stderr, "Dropping ip packet. Corrupted checksum. %d ", received_cksum);
     return;
   }
 
