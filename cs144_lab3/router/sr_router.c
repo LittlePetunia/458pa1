@@ -84,7 +84,7 @@ void sr_handlepacket(struct sr_instance* sr,
   /* fill in code here */
   struct sr_if *iface = sr_get_interface(sr, interface);
   assert (iface);
-  sr_ethernet_hdr_t *ether_hdr = (sr_ethernet_hdr_t *)packet;
+  sr_ethernet_hdr_t *ethernet_hdr = (sr_ethernet_hdr_t *)packet;
 
   /* drop if packet is too short */
   if (len < sizeof (sr_ethernet_hdr_t))
