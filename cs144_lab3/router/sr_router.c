@@ -67,6 +67,16 @@ void sr_init(struct sr_instance* sr)
  *
  *---------------------------------------------------------------------*/
 
+void cksum_recompute(sr_ip_hdr_t * ip_hdr){
+    /* decrement the ttl by 1
+    and re compute the packet checksum over the 
+    modified header*/
+    ip_hdr -> ip_ttl --;
+    memset(&ip_hdr -> ip_sum,0,sizeof(uint16_t));
+    ip_hdr -> ip_sum = cksum(ip_hdr, sizeof(sr_ip_hdr_t));
+}
+
+
 void sr_handlepacket(struct sr_instance* sr,
         uint8_t * packet/* lent */,
         unsigned int len,
@@ -112,12 +122,5 @@ void sr_handlepacket(struct sr_instance* sr,
 
 }/* end sr_ForwardPacket */
 
-void cksum_recompute(sr_ip_hdr_t * ip_hdr){
-    /* decrement the ttl by 1
-    and re compute the packet checksum over the 
-    modified header*/
-    ip_hdr -> ip_ttl --;
-    memset(&ip_hdr -> ip_sum,0,sizeof(uint16_t));
-    ip_hdr -> ip_sum = cksum(ip_hdr, sizeof(sr_ip_hdr_t))
-  }
+
 
