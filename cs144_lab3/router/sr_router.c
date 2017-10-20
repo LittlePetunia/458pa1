@@ -93,6 +93,15 @@ void sr_handlepacket(struct sr_instance* sr,
     return;
   }
 
+  /* drop if checksum not correct */
+  uint16_t cksum = ip_hdr -> ip_sum;
+  ip_hdr -> ip_sum = 0;
+  if(cksum(void *) ip_hdr, sizeof(sr_ip_hdr_t)) != chksum)
+  {
+    fprintf(stderr, "Dropping ip packet. Corrupted checksum. %d ", chksum);
+    return;
+  }
+
   
 
 }/* end sr_ForwardPacket */
