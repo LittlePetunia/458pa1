@@ -80,8 +80,19 @@ void sr_handlepacket(struct sr_instance* sr,
   printf("+++++++++++++++++++++++++++++++++++\n");
   print_hdrs(packet,len); 
   printf("+++++++interface %c \n", *interface);
-  /*printf(interface);*/
   /* fill in code here */
+  /* fill in code here */
+  struct sr_if *iface = sr_get_interface(sr, interface);
+  assert (iface);
+  sr_ethernet_hdr_t *ether_hdr = (sr_ethernet_hdr_t *)packet;
+
+  /* drop if packet is too short */
+  if (len < sizeof (sr_ethernet_hdr_t))
+  {
+    fprintf (stderr, "Dropping ethernet frame. Too short. len: %d.\n", len);
+    return;
+  }
+
   
 
 }/* end sr_ForwardPacket */
