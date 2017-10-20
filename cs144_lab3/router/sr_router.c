@@ -94,6 +94,8 @@ void sr_handlepacket(struct sr_instance* sr,
   }
 
   /* drop if checksum not correct */
+  void * datagram = (uint8_t *)packet + sizeof(sr_ethernet_hdr_t);
+  sr_ip_hdr_t * ip_hdr = (sr_ip_hdr_t *)datagram;
   uint16_t cksum = ip_hdr -> ip_sum;
   ip_hdr -> ip_sum = 0;
   if(cksum(void *) ip_hdr, sizeof(sr_ip_hdr_t)) != chksum)
