@@ -66,7 +66,6 @@ void sr_init(struct sr_instance* sr)
  * the method call.
  *
  *---------------------------------------------------------------------*/
-
 void cksum_recompute(sr_ip_hdr_t * ip_hdr){
     /* decrement the ttl by 1
     and re compute the packet checksum over the 
@@ -74,6 +73,7 @@ void cksum_recompute(sr_ip_hdr_t * ip_hdr){
     ip_hdr -> ip_ttl --;
     memset(&ip_hdr -> ip_sum,0,sizeof(uint16_t));
     ip_hdr -> ip_sum = cksum(ip_hdr, sizeof(sr_ip_hdr_t));
+
 }
 
 
@@ -91,6 +91,7 @@ void sr_handlepacket(struct sr_instance* sr,
   printf("+++++++++++++++++++++++++++++++++++\n");
   print_hdrs(packet,len); 
   printf("+++++++interface %c \n", *interface);
+  print_hdr_ip(packet);
   /* fill in code here */
   struct sr_if *iface = sr_get_interface(sr, interface);
   assert (iface);
@@ -114,8 +115,6 @@ void sr_handlepacket(struct sr_instance* sr,
     fprintf(stderr, "Dropping ip packet. Corrupted checksum. %d ", received_cksum);
     return;
   }
-  printf("00000000000000000000000\n");
-  print_hdr_ip(packet);
 
   cksum_recompute(ip_hdr);
 
