@@ -92,6 +92,7 @@ void sr_handlepacket(struct sr_instance* sr,
   print_hdrs(packet,len); 
   printf("+++++++interface %c \n", *interface);
   print_hdr_ip(packet);
+  printf("00000000000000hdrip0000000000\n", );
   /* fill in code here */
   struct sr_if *iface = sr_get_interface(sr, interface);
   assert (iface);
