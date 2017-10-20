@@ -114,7 +114,7 @@ void sr_handlepacket(struct sr_instance* sr,
     fprintf(stderr, "Dropping ip packet. Corrupted checksum. %d ", received_cksum);
     return;
   }
-  printf("00000000000000000000000\n")
+  printf("00000000000000000000000\n");
   print_hdr_ip(packet);
 
   cksum_recompute(ip_hdr);
